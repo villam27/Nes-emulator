@@ -1,3 +1,5 @@
+use crate::Rom;
+
 #[derive(Debug)]
 #[allow(dead_code)]
 pub struct Cpu {
@@ -11,8 +13,8 @@ pub struct Cpu {
     memory: [u8; 0xFFFF], //  https://www.nesdev.org/wiki/CPU_memory_map
 }
 
-impl Default for Cpu {
-    fn default() -> Cpu {
+impl Cpu {
+    pub fn default() -> Self {
         let memory: [u8; 0xFFFF] = [0; 0xFFFF];
         Cpu {
             pc: 0,
@@ -23,5 +25,16 @@ impl Default for Cpu {
             status: 0,
             memory,
         }
+    }
+
+    #[allow(dead_code)]
+    pub fn start(self, rom: Rom) {
+        //	Start the cpu
+        println!("Start Cpu");
+        rom.print_memory(0);
+        //loop {
+        //    //	Main loop
+        //    println!("loop {}", rom.name);
+        //}
     }
 }
