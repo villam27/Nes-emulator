@@ -31,7 +31,7 @@ impl Cpu {
     pub fn start(self, rom: Rom) {
         //	Start the cpu
         println!("Start Cpu");
-        rom.print_memory(0);
+        //rom.print_memory(0);
         //loop {
         //    //	Main loop
         //    println!("loop {}", rom.name);

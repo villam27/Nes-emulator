@@ -6,6 +6,9 @@ use std::io::Read;
 use cpu::Cpu;
 mod cpu;
 
+const PRG_ROM: usize = 4;   //  Program Rom
+const CHR_ROM: usize = 5;   //  Character Rom
+
 //  https://www.nesdev.org/wiki/INES
 //  https://www.nesdev.org/wiki/NES_2.0
 pub enum Format {
@@ -35,8 +38,8 @@ impl Rom {
             Rom {
                 name: path.clone(),
                 format: Format::INES,
-                prg_size: memory[4] as u32 * 16384,
-                chr_size: memory[5] as u32 * 8192,
+                prg_size: memory[PRG_ROM] as u32 * 16384,
+                chr_size: memory[CHR_ROM] as u32 * 8192,
                 memory,
             }
         } else {
@@ -49,13 +52,14 @@ impl Rom {
         let mut size: i32 = 0;
         let mut m: i32 = 0;
 
+        println!("Entry {:#06x} {:#06x}", &self.memory[4], &self.memory[5]);
         for byte in &self.memory {
             if size % 256 == 0 {
                 println!("\n{:#06x}", size);
                 m += 1;
             }
             if m >= max {
-                break;
+                //break;
             }
             print!("{:b} ", byte);
             size += 1;
@@ -73,6 +77,6 @@ fn main() {
     }
     let rom: Rom = Rom::new(&args[1]);
 
+    rom.print_memory(0);
     cpu.start(rom);
-    //rom.print(10);
 }
